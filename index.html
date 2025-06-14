@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freedom from Work Celebration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #4a5568 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 2rem 0;
+        }
+
+        /* Floating confetti animation */
+        .confetti {
+            position: fixed;
+            top: -10px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .confetti-piece {
+            width: 8px;
+            height: 8px;
+            background: #ffd700;
+            position: absolute;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        .confetti-piece:nth-child(1) { left: 10%; background: #95a5a6; animation-delay: 0s; }
+        .confetti-piece:nth-child(2) { left: 20%; background: #7f8c8d; animation-delay: 0.5s; }
+        .confetti-piece:nth-child(3) { left: 30%; background: #bdc3c7; animation-delay: 1s; }
+        .confetti-piece:nth-child(4) { left: 40%; background: #ecf0f1; animation-delay: 1.5s; }
+        .confetti-piece:nth-child(5) { left: 50%; background: #95a5a6; animation-delay: 2s; }
+        .confetti-piece:nth-child(6) { left: 60%; background: #7f8c8d; animation-delay: 0.3s; }
+        .confetti-piece:nth-child(7) { left: 70%; background: #bdc3c7; animation-delay: 0.8s; }
+        .confetti-piece:nth-child(8) { left: 80%; background: #ecf0f1; animation-delay: 1.3s; }
+        .confetti-piece:nth-child(9) { left: 90%; background: #95a5a6; animation-delay: 1.8s; }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .audio-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .play-btn, .mute-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .play-btn:hover, .mute-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(52, 73, 94, 0.3);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border: 3px solid rgba(149, 165, 166, 0.5);
+            border-left: 8px solid #95a5a6;
+            border-right: 8px solid #95a5a6;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            z-index: 1;
+            animation: slideIn 1.2s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ecf0f1, #bdc3c7, #95a5a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(236, 240, 241, 0.5);
+        }
+
+        @keyframes rainbow {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(180deg); }
+        }
+
+        .freedom-title {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #ecf0f1;
+            font-weight: 600;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(236, 240, 241, 0.5); }
+            to { text-shadow: 0 0 20px rgba(236, 240, 241, 0.8); }
+        }
+
+        .image-container {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            animation: fadeInScale 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .celebration-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .celebration-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .time-unit {
+            background: rgba(52, 73, 94, 0.4);
+            border-radius: 10px;
+            padding: 2rem 1rem;
+            border: 3px solid rgba(127, 140, 141, 0.6);
+            border-top: 4px solid #7f8c8d;
+            border-bottom: 4px solid #7f8c8d;
+            position: relative;
+            overflow: hidden;
+            animation: popIn 0.8s ease-out;
+            transition: transform 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .time-unit:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .time-unit:nth-child(1) { animation-delay: 0.2s; }
+        .time-unit:nth-child(2) { animation-delay: 0.4s; }
+        .time-unit:nth-child(3) { animation-delay: 0.6s; }
+        .time-unit:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .time-unit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(149, 165, 166, 0.3), transparent);
+            animation: sweep 4s infinite;
+        }
+
+        @keyframes sweep {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .time-number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #ecf0f1;
+            text-shadow: 0 0 15px rgba(236, 240, 241, 0.6);
+            margin-bottom: 0.5rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .time-label {
+            font-size: 1.1rem;
+            color: #bdc3c7;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .progress-container {
+            margin: 2rem 0;
+        }
+
+        .progress-label {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #ecf0f1;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(52, 73, 94, 0.6);
+            border-radius: 6px;
+            overflow: hidden;
+            border: 2px solid rgba(127, 140, 141, 0.5);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7f8c8d, #95a5a6, #bdc3c7);
+            border-radius: 6px;
+            width: 0%;
+            animation: progressShine 2s ease-in-out infinite;
+            background-size: 200% 100%;
+            transition: width 0.5s ease;
+        }
+
+        @keyframes progressShine {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .custom-image-container {
+            margin: 2.5rem 0;
+            display: flex;
+            justify-content: center;
+            animation: bounceIn 1.5s ease-out 0.8s both;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotate(-10deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1) rotate(5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .custom-image {
+            max-width: 409px;
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 4px solid rgba(127, 140, 141, 0.8);
+            border-left: 6px solid #7f8c8d;
+            border-right: 6px solid #7f8c8d;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            animation: wobbleRotate 4s ease-in-out infinite;
+            transition: transform 0.3s ease;
+        }
+
+        @keyframes wobbleRotate {
+            0%, 100% { 
+                transform: rotate(0deg) scale(1);
+            }
+            25% { 
+                transform: rotate(-2deg) scale(1.02);
+            }
+            50% { 
+                transform: rotate(0deg) scale(1.05);
+            }
+            75% { 
+                transform: rotate(2deg) scale(1.02);
+            }
+        }
+
+        .custom-image:hover {
+            transform: rotate(5deg) scale(1.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .celebration-message {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(255, 215, 0, 0.15);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            font-size: 1.3rem;
+            line-height: 1.8;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .floating-elements {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 5s ease-in-out infinite;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .floating-elements:nth-child(1) {
+            top: 15%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-elements:nth-child(2) {
+            top: 60%;
+            left: 5%;
+            animation-delay: 2s;
+        }
+
+        .floating-elements:nth-child(3) {
+            top: 25%;
+            left: 15%;
+            animation-delay: 1s;
+        }
+
+        .floating-elements:nth-child(4) {
+            top: 70%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(5deg); }
+            75% { transform: translateY(-10px) rotate(-3deg); }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0;
+                align-items: flex-start;
+            }
+            
+            .container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .freedom-title {
+                font-size: 1.2rem;
+            }
+            
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .time-unit {
+                padding: 1.5rem 0.8rem;
+            }
+            
+            .time-number {
+                font-size: 2.8rem;
+            }
+            
+            .time-label {
+                font-size: 1rem;
+                letter-spacing: 1px;
+            }
+            
+            .celebration-message {
+                font-size: 1.1rem;
+                padding: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .custom-image-container {
+                margin: 2rem 0;
+            }
+            
+            .custom-image {
+                max-width: 300px;
+                border-radius: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0.5rem 0;
+            }
+            
+            .container {
+                padding: 1.5rem 1rem;
+                border-radius: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .freedom-title {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .image-container {
+                margin: 1.5rem 0;
+            }
+            
+            .countdown-grid {
+                gap: 1rem;
+                margin: 1.5rem 0;
+            }
+            
+            .time-unit {
+                padding: 1.2rem 0.5rem;
+                border-radius: 15px;
+            }
+            
+            .time-number {
+                font-size: 2.2rem;
+            }
+            
+            .time-label {
+                font-size: 0.9rem;
+            }
+            
+            .celebration-message {
+                font-size: 1rem;
+                padding: 1.2rem;
+                line-height: 1.6;
+            }
+            
+            .custom-image-container {
+                margin: 1.5rem 0;
+            }
+            
+            .custom-image {
+                max-width: 250px;
+                border-radius: 12px;
+            }
+            
+            .floating-elements {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio id="backgroundMusic" loop autoplay>
+        <source src="cancion.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <div class="confetti">
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+    </div>
+
+    <div class="container">
+        <div class="floating-elements">🔓</div>
+        <div class="floating-elements">⚖️</div>
+        <div class="floating-elements">🗝️</div>
+        <div class="floating-elements">🔒</div>
+
+        <h1>Cuanto falta para que salga la chorra?</h1>
+        <div class="freedom-title">Todavía falta mucho kukita...</div>
+        
+        <div class="image-container">
+            <img src="cristina.jpg" alt="Career Liberation Image" class="celebration-image">
+        </div>
+        
+        <div class="countdown-grid">
+            <div class="time-unit">
+                <div class="time-number">0</div>
+                <div class="time-label">Años</div>
+            </div>
+            
+            <div class="time-unit">
+                <div class="time-number">0</div>
+                <div class="time-label">Meses</div>
+            </div>
+            
+            <div class="time-unit">
+                <div class="time-number">0</div>
+                <div class="time-label">Dias</div>
+            </div>
+            
+            <div class="time-unit">
+                <div class="time-number">0</div>
+                <div class="time-label">Horas</div>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-label">Progress to Freedom</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="custom-image-container">
+            <img src="milei.png" alt="Custom Image" class="custom-image">
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('backgroundMusic');
+        let hasStartedPlaying = false;
+
+        // Function to start audio
+        function startAudio() {
+            if (!hasStartedPlaying) {
+                audio.play().then(() => {
+                    hasStartedPlaying = true;
+                    console.log('Audio started playing');
+                }).catch((error) => {
+                    console.log('Audio play failed:', error);
+                });
+            }
+        }
+
+        // Add click listener to entire page
+        document.addEventListener('click', startAudio);
+        document.addEventListener('touchstart', startAudio); // For mobile
+        document.addEventListener('keydown', startAudio); // For keyboard interaction
+
+        function updateCountdown() {
+            const targetDate = new Date('June 1, 2031 00:00:00').getTime();
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                // Calculate years, months, days, hours
+                const years = Math.floor(difference / (1000 * 60 * 60 * 24 * 365));
+                const months = Math.floor((difference % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+                const days = Math.floor((difference % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                // Update countdown display
+                document.querySelector('.time-unit:nth-child(1) .time-number').textContent = years;
+                document.querySelector('.time-unit:nth-child(2) .time-number').textContent = months;
+                document.querySelector('.time-unit:nth-child(3) .time-number').textContent = days;
+                document.querySelector('.time-unit:nth-child(4) .time-number').textContent = hours;
+
+                // Calculate progress (assuming start date was January 1, 2025)
+                const startDate = new Date('January 1, 2025 00:00:00').getTime();
+                const totalDuration = targetDate - startDate;
+                const elapsed = now - startDate;
+                const progressPercent = Math.max(0, Math.min(100, (elapsed / totalDuration) * 100));
+                
+                document.querySelector('.progress-fill').style.width = progressPercent + '%';
+            }
+        }
+
+        // Update countdown immediately and then every hour
+        updateCountdown();
+        setInterval(updateCountdown, 3600000); // Update every hour
+    </script>
+</body>
+</html>
